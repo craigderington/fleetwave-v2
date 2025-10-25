@@ -13,12 +13,13 @@
 /dist/
 
 # IDEs
-/.idea/
-/*.iml
-/.vscode/
-/.settings/
-/.classpath
-/.project
+.idea
+*.iml
+.vscode
+.settings
+.classpath
+.project
+.factorypath
 
 # Gradle
 /.gradle/
@@ -44,3 +45,6 @@
 .env
 .env.local
 .env.*.local
+
+# eclipse
+org.eclipse.*

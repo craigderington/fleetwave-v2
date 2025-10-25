@@ -20,3 +20,9 @@ public interface AssignmentRepository extends JpaRepository<Assignment, UUID> {
          "org.fleetwave.domain.Assignment$Status.ACTIVE and a.endAt is null")
   Optional<Assignment> findActiveForRadio(@Param("radioId") UUID radioId);
 }
+
+
+  @Query("select a from Assignment a where a.status = org.fleetwave.domain.Assignment$Status.ACTIVE " +
+         "and a.endAt is null and a.assigneeType = org.fleetwave.domain.Assignment$AssigneeType.USER " +
+         "and a.assigneeId = :userId")
+  List<Assignment> findActiveByUser(@Param("userId") UUID userId);

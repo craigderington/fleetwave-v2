@@ -29,3 +29,11 @@ docker compose up --build
 
 ### Dev portal
 Run `cd fleetwave-portal && npm i && npm run dev` (port 5173). Configure CORS if using separate origin.
+
+
+### One-shot seeder (prod-safe)
+Run once with:
+```bash
+java -jar fleetwave-web/target/fleetwave-web-0.1.0-SNAPSHOT.jar --seed.ocps=true --spring.profiles.active=prod
+```
+It records completion in `seed_log` and will no-op on subsequent runs.

@@ -1,15 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { MyAssignments } from './pages/MyAssignments'
+import { SubmitRequest } from './pages/SubmitRequest'
+import { ManagerQueue } from './pages/ManagerQueue'
 
 export function App(){
-  const [me, setMe] = useState<any>(null)
-  useEffect(() => {
-    fetch('/api/auth/me', { credentials: 'include'}).then(r => r.ok ? r.json() : null).then(setMe).catch(() => setMe(null))
-  }, [])
   return (
-    <div style={{fontFamily:'system-ui', padding: 24}}>
-      <h1>FleetWave Portal</h1>
-      {me ? <p>Signed in as <b>{me.username || 'user'}</b></p> : <p>Please sign in at <a href="/login">/login</a></p>}
-      <p>API base is same origin. Ensure portal is hosted behind the app or configure CORS.</p>
-    </div>
+    <BrowserRouter>
+      <div style={{fontFamily:'system-ui', padding: 24}}>
+        <h1>FleetWave Portal</h1>
+        <nav style={{display:'flex', gap:12, marginBottom:16}}>
+          <Link to="/">My Assignments</Link>
+          <Link to="/request">Submit Request</Link>
+          <Link to="/queue">Manager Queue</Link>
+        </nav>
+        <Routes>
+          <Route path="/" element={<MyAssignments/>} />
+          <Route path="/request" element={<SubmitRequest/>} />
+          <Route path="/queue" element={<ManagerQueue/>} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   )
 }

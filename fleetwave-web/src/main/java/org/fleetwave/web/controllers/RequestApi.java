@@ -9,10 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/requests")
+@org.springframework.security.access.prepost.PreAuthorize("hasAnyRole('ADMIN','DISPATCHER','MANAGER')")
 public class RequestApi {
   private final RequestService service;
   private final FulfillmentService fulfill;
@@ -22,20 +24,23 @@ public class RequestApi {
   }
 
   @PostMapping
-  public ResponseEntity<?> create(@RequestBody CreateRequest req){
-    var r = service.create(req.requesterId(), req.workgroupId(), req.radioModelPref(), req.reason());
+  public ResponseEntity<?> create(@RequestBody CreateRequest req, org.springframework.security.core.Authentication auth){
+    var requester = req.requesterId() != null ? req.requesterId() : users.findByEmail(auth.getName()).orElseThrow().getId();
+    var r = service.create(requester, req.workgroupId(), req.radioModelPref(), req.reason());
     return ResponseEntity.ok(Map.of("id", r.getId(), "status", r.getStatus()));
   }
 
   @PostMapping("/{id}/approve")
-  public ResponseEntity<?> approve(@PathVariable UUID id, @RequestBody ApproveRequest req){
-    var r = service.approve(id, req.approverId(), req.comment());
+  public ResponseEntity<?> approve(@PathVariable UUID id, @RequestBody ApproveRequest req, org.springframework.security.core.Authentication auth){
+    var approver = req.approverId() != null ? req.approverId() : users.findByEmail(auth.getName()).orElseThrow().getId();
+    var r = service.approve(id, approver, req.comment());
     return ResponseEntity.ok(Map.of("id", r.getId(), "status", r.getStatus()));
   }
 
   @PostMapping("/{id}/reject")
-  public ResponseEntity<?> reject(@PathVariable UUID id, @RequestBody ApproveRequest req){
-    var r = service.reject(id, req.approverId(), req.comment());
+  public ResponseEntity<?> reject(@PathVariable UUID id, @RequestBody ApproveRequest req, org.springframework.security.core.Authentication auth){
+    var approver = req.approverId() != null ? req.approverId() : users.findByEmail(auth.getName()).orElseThrow().getId();
+    var r = service.reject(id, approver, req.comment());
     return ResponseEntity.ok(Map.of("id", r.getId(), "status", r.getStatus()));
   }
 
@@ -49,3 +54,19 @@ public class RequestApi {
                               String radioModelPref, @NotBlank String reason){}
   public record ApproveRequest(@NotNull UUID approverId, String comment){}
 }
+
+  @GetMapping
+  public ResponseEntity<?> list(@RequestParam(required=false) String status,
+                                @RequestParam(required=false, defaultValue="false") boolean mine,
+                                org.springframework.security.core.Authentication auth){
+    if (mine){
+      var u = users.findByEmail(auth.getName()).orElseThrow();
+      return ResponseEntity.ok(repo.findByRequesterId(u.getId()));
+    }
+    var all = repo.findAll();
+    if (status != null) {
+      var s = org.fleetwave.domain.Request.Status.valueOf(status);
+      all = all.stream().filter(r -> r.getStatus() == s).toList();
+    }
+    return ResponseEntity.ok(all);
+  }

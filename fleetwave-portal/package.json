@@ -4,11 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "openapi-client": "npx openapi-typescript-codegen --input ../fleetwave-web/target/openapi.json --output src/api --client fetch",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "react-router-dom": "^6.26.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

@@ -1,0 +1,38 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout (~{::body})"
+      th:with="title='Requests', content=~{::content}">
+<body>
+<section id="content">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4>Requests</h4>
+    <a class="btn btn-primary" href="/admin/requests/new">New Request</a>
+  </div>
+  <table class="table table-sm">
+    <thead><tr><th>ID</th><th>Requester</th><th>Workgroup</th><th>Model Pref</th><th>Status</th><th>Actions</th></tr></thead>
+    <tbody>
+      <tr th:each="r : ${requests}">
+        <td th:text="${r.id}">id</td>
+        <td th:text="${r.requesterId}">requester</td>
+        <td th:text="${r.workgroup != null ? r.workgroup.id : '-'}">workgroup</td>
+        <td th:text="${r.radioModelPref}">pref</td>
+        <td th:text="${r.status}">status</td>
+        <td>
+          <form th:action="@{|/admin/requests/${r.id}/approve|}" method="post" class="d-inline">
+            <input type="hidden" name="approverId" value="00000000-0000-0000-0000-0000000000aa"/>
+            <button class="btn btn-sm btn-success" th:disabled="${r.status != T(org.fleetwave.domain.Request.Status).PENDING}">Approve</button>
+          </form>
+          <form th:action="@{|/admin/requests/${r.id}/reject|}" method="post" class="d-inline">
+            <input type="hidden" name="approverId" value="00000000-0000-0000-0000-0000000000aa"/>
+            <button class="btn btn-sm btn-warning" th:disabled="${r.status != T(org.fleetwave.domain.Request.Status).PENDING}">Reject</button>
+          </form>
+          <form th:action="@{|/admin/requests/${r.id}/fulfill|}" method="post" class="d-inline">
+            <button class="btn btn-sm btn-primary" th:disabled="${r.status != T(org.fleetwave.domain.Request.Status).APPROVED}">Fulfill</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+</body>
+</html>

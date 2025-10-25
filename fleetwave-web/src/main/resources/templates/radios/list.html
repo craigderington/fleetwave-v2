@@ -1,0 +1,24 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout (~{::body})"
+      th:with="title='Radios', content=~{::content}">
+<body>
+<section id="content">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4>Radios</h4>
+    <a class="btn btn-primary" href="/admin/radios/new">New Radio</a>
+  </div>
+  <table class="table table-sm">
+    <thead><tr><th>Serial</th><th>Callsign</th><th>Model</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr th:each="r : ${radios}">
+        <td th:text="${r.serial}">serial</td>
+        <td th:text="${r.callsign}">callsign</td>
+        <td th:text="${r.model}">model</td>
+        <td th:text="${r.status}">status</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+</body>
+</html>

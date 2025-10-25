@@ -1,0 +1,37 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout (~{::body})"
+      th:with="title='New Assignment', content=~{::content}">
+<body>
+<section id="content">
+  <h4>New Assignment</h4>
+  <form method="post" th:action="@{/admin/assignments}" th:object="${cmd}" class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label">Radio</label>
+      <select class="form-select" th:field="*{radioId}" required>
+        <option th:each="r : ${radios}" th:value="${r.id}" th:text="${r.serial + ' (' + r.model + ')'}"></option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Assignee Type</label>
+      <select class="form-select" th:field="*{assigneeType}">
+        <option value="WORKGROUP">WORKGROUP</option>
+        <option value="USER">USER</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Assignee ID (UUID)</label>
+      <input class="form-control" th:field="*{assigneeId}" placeholder="UUID of workgroup or user"/>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Expected End (ISO)</label>
+      <input class="form-control" th:field="*{expectedEnd}" placeholder="2025-11-01T17:00:00Z"/>
+    </div>
+    <div class="col-12">
+      <button class="btn btn-success" type="submit">Assign</button>
+      <a class="btn btn-secondary" href="/admin">Cancel</a>
+    </div>
+  </form>
+</section>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout (~{::body})"
+      th:with="title='Alerts', content=~{::content}">
+<body>
+<section id="content">
+  <h4>Alerts Inbox</h4>
+  <p>This is a placeholder view. Wire to `/api/v1/alerts` list in a later pass.</p>
+</section>
+</body>
+</html>

@@ -1,0 +1,46 @@
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# Build tools
+/target/
+/build/
+/out/
+/bin/
+/dist/
+
+# IDEs
+/.idea/
+/*.iml
+/.vscode/
+/.settings/
+/.classpath
+/.project
+
+# Gradle
+/.gradle/
+/build.gradle.lockfile
+/gradle.properties
+
+# Maven
+/pom.xml.versionsBackup
+/release.properties
+
+# Dependency directories
+/lib/
+/libs/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~.nib
+.DS_Store
+
+# Environment
+.env
+.env.local
+.env.*.local

@@ -6,11 +6,11 @@
 *.log
 
 # Build tools
-/target/
-/build/
-/out/
-/bin/
-/dist/
+target/
+build/
+out/
+bin/
+dist/
 
 # IDEs
 .idea
@@ -22,13 +22,16 @@
 .factorypath
 
 # Gradle
-/.gradle/
+.gradle/
 /build.gradle.lockfile
 /gradle.properties
 
 # Maven
-/pom.xml.versionsBackup
-/release.properties
+maven-status
+pom.xml.versionsBackup
+pom.properties
+release.properties
+
 
 # Dependency directories
 /lib/

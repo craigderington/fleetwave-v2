@@ -1,11 +1,8 @@
 package org.fleetwave.domain.repo;
-
 import org.fleetwave.domain.Radio;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.Optional;
 import java.util.UUID;
-
 public interface RadioRepository extends JpaRepository<Radio, UUID> {
-  Optional<Radio> findFirstByStatusOrderByCreatedAtAsc(Radio.Status status);
+  Optional<Radio> findFirstByStatusOrderByModelAsc(Radio.Status status);
 }

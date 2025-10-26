@@ -5,17 +5,17 @@ import lombok.*;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @Entity @Table(name="notification")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class Notification extends BaseEntity {
+public class Notification {
   public enum Channel { EMAIL, SMS, WEBHOOK }
   public enum Status { PENDING, SENT, FAILED }
-
   @Id private UUID id;
-  @ManyToOne(optional=false) @JoinColumn(name="alert_id") private Alert alert;
-  @Enumerated(EnumType.STRING) @Column(nullable=false) private Channel channel;
-  @Column(nullable=false) private String destination;
-  @Enumerated(EnumType.STRING) @Column(nullable=false) private Status status = Status.PENDING;
-  @Column(nullable=false) private int attempts = 0;
-  private OffsetDateTime lastAttemptAt;
+  @ManyToOne @JoinColumn(name="alert_id") private Alert alert;
+  @Enumerated(EnumType.STRING) private Channel channel = Channel.EMAIL;
+  private String destination;
+  @Enumerated(EnumType.STRING) private Status status = Status.PENDING;
+  private int attempts = 0;
+  private java.time.OffsetDateTime lastAttemptAt;
+
 }

@@ -1,47 +1,41 @@
 package org.fleetwave.app.services;
 
 import lombok.RequiredArgsConstructor;
-import org.fleetwave.domain.*;
-import org.fleetwave.domain.repo.*;
+import org.fleetwave.domain.Request;
+import org.fleetwave.domain.Workgroup;
+import org.fleetwave.domain.repo.RequestRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.UUID;
 
 @Service @RequiredArgsConstructor
 public class RequestService {
   private final RequestRepository requests;
-  private final ApprovalRepository approvals;
 
   @Transactional
   public Request create(UUID requesterId, UUID workgroupId, String modelPref, String reason){
-    var r = Request.builder()
-      .id(UUID.randomUUID())
-      .requesterId(requesterId)
-      .workgroup(Workgroup.builder().id(workgroupId).build())
-      .radioModelPref(modelPref)
-      .reason(reason)
-      .build();
+    Request r = new Request();
+    r.setId(UUID.randomUUID());
+    r.setRequesterId(requesterId);
+    var wg = new Workgroup(); wg.setId(workgroupId);
+    r.setWorkgroup(wg);
+    r.setRadioModelPref(modelPref);
+    r.setReason(reason);
+    r.setStatus(Request.Status.PENDING);
     return requests.save(r);
   }
 
   @Transactional
-  public Request approve(UUID requestId, UUID approverId, String comment){
+  public Request approve(UUID requestId){
     var r = requests.findById(requestId).orElseThrow();
     r.setStatus(Request.Status.APPROVED);
-    approvals.save(Approval.builder()
-      .id(UUID.randomUUID())
-      .request(r).approverId(approverId).decision(Approval.Decision.APPROVE).comment(comment).build());
-    return r;
+    return requests.save(r);
   }
 
   @Transactional
-  public Request reject(UUID requestId, UUID approverId, String comment){
+  public Request reject(UUID requestId){
     var r = requests.findById(requestId).orElseThrow();
     r.setStatus(Request.Status.REJECTED);
-    approvals.save(Approval.builder()
-      .id(UUID.randomUUID())
-      .request(r).approverId(approverId).decision(Approval.Decision.REJECT).comment(comment).build());
-    return r;
+    return requests.save(r);
   }
 }

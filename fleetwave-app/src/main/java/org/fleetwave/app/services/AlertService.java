@@ -2,7 +2,9 @@ package org.fleetwave.app.services;
 
 import lombok.RequiredArgsConstructor;
 import org.fleetwave.domain.*;
-import org.fleetwave.domain.repo.*;
+import org.fleetwave.domain.repo.AlertRepository;
+import org.fleetwave.domain.repo.AlertRuleRepository;
+import org.fleetwave.domain.repo.NotificationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,16 +26,21 @@ public class AlertService {
       a.setCount(a.getCount()+1);
       return a;
     }
-    var a = Alert.builder()
-      .id(UUID.randomUUID())
-      .rule(rule).subjectType(subjectType).subjectId(subjectId)
-      .status(Alert.Status.OPEN)
-      .build();
+    Alert a = new Alert();
+    a.setId(UUID.randomUUID());
+    a.setRule(rule);
+    a.setSubjectType(subjectType);
+    a.setSubjectId(subjectId);
+    a.setStatus(Alert.Status.OPEN);
     alerts.save(a);
-    // enqueue default notifications (email to dispatch@{tenant} placeholder, SMS none here)
-    notifications.save(Notification.builder()
-      .id(UUID.randomUUID()).alert(a).channel(Notification.Channel.EMAIL)
-      .destination("dispatch@tenant.local").status(Notification.Status.PENDING).build());
+
+    Notification n = new Notification();
+    n.setId(UUID.randomUUID());
+    n.setAlert(a);
+    n.setChannel(Notification.Channel.EMAIL);
+    n.setDestination("dispatch@tenant.local");
+    n.setStatus(Notification.Status.PENDING);
+    notifications.save(n);
     return a;
   }
 }

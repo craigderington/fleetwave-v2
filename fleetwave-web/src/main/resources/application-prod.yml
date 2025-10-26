@@ -1,7 +1,0 @@
-spring:
-  profiles: prod
-app:
-  tenancy:
-    strict: true  # do not fallback tenant
-server:
-  forward-headers-strategy: framework

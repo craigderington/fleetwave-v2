@@ -1,45 +1,13 @@
 package org.fleetwave.app.services;
-
-import lombok.RequiredArgsConstructor;
-import org.fleetwave.app.events.DomainEvents;
-import org.fleetwave.domain.Assignment;
-import org.fleetwave.domain.repo.AssignmentRepository;
-import org.fleetwave.domain.repo.RadioRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.OffsetDateTime;
-import java.util.UUID;
-
-@Service
-@RequiredArgsConstructor
-public class AssignmentService {
-  private final AssignmentRepository assignments;
-  private final RadioRepository radios;
-  private final DomainEvents events;
-
-  @Transactional
-  public Assignment create(UUID radioId, Assignment.AssigneeType type, UUID assigneeId, OffsetDateTime expectedEnd){
-    assignments.findActiveForRadio(radioId).ifPresent(a -> { throw new IllegalStateException("Radio already assigned"); });
-    var radio = radios.findById(radioId).orElseThrow();
-    var a = Assignment.builder()
-        .id(UUID.randomUUID())
-        .radio(radio)
-        .assigneeType(type)
-        .assigneeId(assigneeId)
-        .expectedEnd(expectedEnd)
-        .status(Assignment.Status.ACTIVE)
-        .build();
-    var saved = assignments.save(a);
-    events.publish(saved);
-    return saved;
+import org.fleetwave.domain.*; import org.fleetwave.domain.repo.*; import org.springframework.stereotype.Service; import org.springframework.transaction.annotation.Transactional; import org.springframework.beans.factory.annotation.Autowired; import java.time.OffsetDateTime; import java.util.UUID;
+@Service public class AssignmentService {
+  private final AssignmentRepository assignments; private final RadioRepository radios;
+  @Autowired public AssignmentService(AssignmentRepository a, RadioRepository r){ assignments=a; radios=r; }
+  @Transactional public Assignment create(UUID radioId, Assignment.AssigneeType t, UUID assigneeId, OffsetDateTime expectedEnd){
+    Radio radio = radios.findById(radioId).orElseThrow();
+    assignments.findByRadio_IdAndStatus(radioId, Assignment.Status.ACTIVE).ifPresent(x->{ throw new IllegalStateException("Radio already assigned"); });
+    Assignment a = new Assignment(); a.setId(UUID.randomUUID()); a.setRadio(radio); a.setAssigneeType(t); a.setAssigneeId(assigneeId); a.setExpectedEnd(expectedEnd); a.setStatus(Assignment.Status.ACTIVE);
+    return assignments.save(a);
   }
-
-  @Transactional
-  public Assignment returnAssignment(UUID assignmentId){
-    var a = assignments.findById(assignmentId).orElseThrow();
-    a.setEndAt(OffsetDateTime.now());
-    a.setStatus(Assignment.Status.RETURNED);
-    return a;
-  }
+  @Transactional public Assignment returnAssignment(UUID id){ Assignment a=assignments.findById(id).orElseThrow(); a.setEndAt(OffsetDateTime.now()); a.setStatus(Assignment.Status.RETURNED); return assignments.save(a); }
 }

@@ -1,19 +1,14 @@
 package org.fleetwave.domain;
 
 import jakarta.persistence.*;
-import lombok.*;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
-@Entity @Table(name="workgroup", uniqueConstraints = {
-  @UniqueConstraint(columnNames = {"tenant_id","department_id","name"})
-})
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class Workgroup extends BaseEntity {
-  @Id private UUID id;
+@Entity
+@Table(name="workgroup")
+public class Workgroup {
+  @Id private UUID id; private String name;
+  public UUID getId(){return id;} public void setId(UUID id){this.id=id;}
+  public String getName(){return name;} public void setName(String name){this.name=name;}
 
-  @ManyToOne(optional=false)
-  @JoinColumn(name="department_id")
-  private Department department;
-
-  @Column(nullable=false) private String name;
 }

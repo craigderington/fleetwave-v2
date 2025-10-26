@@ -1,35 +1,42 @@
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/fleetwave
-    username: fleetwave
-    password: fleetwave
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    properties:
-      hibernate:
-        format_sql: true
-  flyway:
-    enabled: true
-    locations: classpath:db/migration
 server:
   port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fleetwave?options=-c%20TimeZone=America/New_York
+    username: fleet
+    password: fleet
+    # Don't fail fast if DB isn't ready yet
+    hikari:
+      initializationFailTimeout: 0
+      connectionTimeout: 30000
+
+  jpa:
+    # Make dialect explicit so Hibernate doesn't need metadata up-front
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate.jdbc.time_zone: UTC
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    display-request-duration: true
+
+notif:
+  email:
+    provider: ses
+  sms:
+    provider: twilio
+
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
+        include: health,info,mappings,beans
 
-
-# Notifications (provider defaults and tenant overrides)
-notif:
-  email:
-    provider: ses   # ses|smtp|mailgun
-    from: no-reply@fleetwave.org
-    tenants:
-      ocps:
-        provider: smtp
-        from: dispatch@ocps.fleetwave.org
-  sms:
-    provider: twilio
-    from: "+15555550123"

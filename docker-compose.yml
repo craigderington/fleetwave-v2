@@ -1,20 +1,19 @@
-version: "3.9"
 services:
   db:
     image: postgres:16
     environment:
-      POSTGRES_USER: fleetwave
-      POSTGRES_PASSWORD: fleetwave
       POSTGRES_DB: fleetwave
-    ports: ["5432:5432"]
-    volumes: [ "pgdata:/var/lib/postgresql/data" ]
-  app:
-    build: .
-    depends_on: [db]
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/fleetwave
-      SPRING_DATASOURCE_USERNAME: fleetwave
-      SPRING_DATASOURCE_PASSWORD: fleetwave
-    ports: ["8080:8080"]
+      POSTGRES_USER: fleet
+      POSTGRES_PASSWORD: fleet
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fleet -d fleetwave || exit 1"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 volumes:
-  pgdata: {}
+  pgdata:
+

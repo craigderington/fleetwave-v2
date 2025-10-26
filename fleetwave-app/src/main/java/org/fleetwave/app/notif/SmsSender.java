@@ -1,0 +1,1 @@
+package org.fleetwave.app.notif; public interface SmsSender{ void send(String to,String body);}

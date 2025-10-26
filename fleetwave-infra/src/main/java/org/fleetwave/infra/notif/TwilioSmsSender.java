@@ -5,5 +5,5 @@ import org.springframework.stereotype.Component;
 @Component
 @ConditionalOnProperty(prefix="notif.sms", name="provider", havingValue="twilio", matchIfMissing = true)
 public class TwilioSmsSender implements SmsSender {
-  @Override public void send(String to, String body){ /* Twilio impl later */ }
+  @Override public void send(String to, String body){ /* integrate Twilio later */ }
 }

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Component;
 @Component
 @ConditionalOnProperty(prefix="notif.email", name="provider", havingValue="ses", matchIfMissing = true)
 public class SesEmailSender implements EmailSender {
-  @Override public void send(EmailMessage msg){ /* SES impl later */ }
+  @Override public void send(EmailMessage msg){ /* integrate SES later */ }
 }

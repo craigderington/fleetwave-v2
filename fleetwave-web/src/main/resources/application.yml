@@ -1,35 +1,42 @@
 server:
   port: 8080
+
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/fleetwave
+    url: jdbc:postgresql://localhost:5432/fleetwave?options=-c%20TimeZone=America/New_York
     username: fleet
     password: fleet
+    # Don't fail fast if DB isn't ready yet
+    hikari:
+      initializationFailTimeout: 0
+      connectionTimeout: 30000
+
   jpa:
+    # Make dialect explicit so Hibernate doesn't need metadata up-front
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
     open-in-view: false
+    properties:
+      hibernate.jdbc.time_zone: UTC
+
 springdoc:
-  api-docs.enabled: true
-  swagger-ui.path: /swagger-ui.html
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    display-request-duration: true
+
 notif:
-  email.provider: ses
-  sms.provider: twilio
+  email:
+    provider: ses
+  sms:
+    provider: twilio
+
 management:
   endpoints:
     web:
       exposure:
         include: health,info,mappings,beans
----
-spring:
-  config:
-    activate:
-      on-profile: h2
-  datasource:
-    url: jdbc:h2:mem:fleet;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
-    driverClassName: org.h2.Driver
-    username: sa
-    password: ""
-  jpa:
-    hibernate:
-      ddl-auto: update
+

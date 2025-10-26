@@ -1,4 +1,30 @@
+server:
+  port: 8080
 spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fleetwave
+    username: fleet
+    password: fleet
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+springdoc:
+  api-docs.enabled: true
+  swagger-ui.path: /swagger-ui.html
+notif:
+  email.provider: ses
+  sms.provider: twilio
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,mappings,beans
+---
+spring:
+  config:
+    activate:
+      on-profile: h2
   datasource:
     url: jdbc:h2:mem:fleet;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
     driverClassName: org.h2.Driver
@@ -7,7 +33,3 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    open-in-view: false
-logging:
-  level:
-    root: INFO

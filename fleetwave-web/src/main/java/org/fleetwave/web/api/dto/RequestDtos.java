@@ -1,0 +1,1 @@
+package org.fleetwave.web.api.dto; import java.util.UUID; public class RequestDtos{ public static class CreateRequest{ public UUID requesterId; public UUID workgroupId; public String modelPref; public String reason; }}

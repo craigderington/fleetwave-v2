@@ -1,14 +1,14 @@
 package org.fleetwave.domain;
 
 import jakarta.persistence.*;
-import lombok.*;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
-@Entity @Table(name="workgroup")
+@Entity
+@Table(name="workgroup")
 public class Workgroup {
-  @Id private UUID id;
-  private String name;
+  @Id private UUID id; private String name;
+  public UUID getId(){return id;} public void setId(UUID id){this.id=id;}
+  public String getName(){return name;} public void setName(String name){this.name=name;}
 
 }

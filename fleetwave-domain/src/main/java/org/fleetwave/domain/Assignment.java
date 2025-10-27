@@ -10,10 +10,15 @@ import org.fleetwave.domain.base.TenantScoped;
 public class Assignment extends TenantScoped {
 
     public enum Status {
-        ACTIVE, RETURNED, CANCELLED
+        REQUESTED,
+        APPROVED,
+        ASSIGNED,
+        RETURNED,
+        CANCELLED
     }
 
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false, updatable = false)
     private UUID id;
 
@@ -32,8 +37,8 @@ public class Assignment extends TenantScoped {
     @Column(name = "start_at", nullable = false)
     private OffsetDateTime startAt;
 
-    @Column(name = "due_at")
-    private OffsetDateTime dueAt;
+    @Column(name = "expected_end")
+    private OffsetDateTime expectedEnd;
 
     @Column(name = "end_at")
     private OffsetDateTime endAt;
@@ -65,8 +70,8 @@ public class Assignment extends TenantScoped {
     public OffsetDateTime getStartAt() { return startAt; }
     public void setStartAt(OffsetDateTime startAt) { this.startAt = startAt; }
 
-    public OffsetDateTime getDueAt() { return dueAt; }
-    public void setDueAt(OffsetDateTime dueAt) { this.dueAt = dueAt; }
+    public OffsetDateTime getExpectedEnd() { return expectedEnd; }
+    public void setExpectedEnd(OffsetDateTime expectedEnd) { this.expectedEnd = expectedEnd; }
 
     public OffsetDateTime getEndAt() { return endAt; }
     public void setEndAt(OffsetDateTime endAt) { this.endAt = endAt; }

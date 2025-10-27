@@ -61,8 +61,8 @@ public class SeedConfig {
                 a.setRadio(r);
                 a.setAssigneePerson(p);
                 a.setStartAt(OffsetDateTime.now());
-                a.setDueAt(OffsetDateTime.now().plusDays(7));
-                a.setStatus(Assignment.Status.ACTIVE);
+                a.setExpectedEnd(OffsetDateTime.now().plusDays(7));
+                a.setStatus(Assignment.Status.ASSIGNED);
                 a.setCreatedAt(OffsetDateTime.now());
                 a.setUpdatedAt(OffsetDateTime.now());
                 a.setTenantId(tenant);

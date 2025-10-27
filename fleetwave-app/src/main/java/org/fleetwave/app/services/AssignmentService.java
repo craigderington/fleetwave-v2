@@ -27,7 +27,7 @@ public class AssignmentService {
     this.personRepo = personRepo;
   }
 
-  /** Assign radio -> Person (enforce one-active-assignment-per-radio). */
+  //**Assign radio -> Person (enforce one-active-assignment-per-radio). */
   @Transactional
   public Assignment assignToPerson(
       String tenantId, UUID radioId, UUID personId, OffsetDateTime expectedEnd) {
@@ -47,7 +47,7 @@ public class AssignmentService {
             .orElseThrow(() -> new IllegalArgumentException("Person not found"));
 
     assignmentRepo
-        .findByTenantIdAndRadio_IdAndStatus(tenantId, radio.getId(), Assignment.Status.ACTIVE)
+        .findByTenantIdAndRadio_IdAndStatus(tenantId, radio.getId(), Assignment.Status.ASSIGNED)
         .ifPresent(a -> {
           throw new IllegalStateException("Radio already has an active assignment");
         });
@@ -63,7 +63,7 @@ public class AssignmentService {
     a.setAssigneeWorkgroup(null);
     a.setStartAt(now);
     a.setExpectedEnd(expected);
-    a.setStatus(Assignment.Status.ACTIVE);
+    a.setStatus(Assignment.Status.ASSIGNED);
     a.setCreatedAt(now);
     a.setUpdatedAt(now);
 
@@ -86,7 +86,7 @@ public class AssignmentService {
 
     if (a.getStatus() == Assignment.Status.RETURNED) {
       // idempotent behavior: update endAt if missing, keep returned
-      if (a.getEndAt() == null && returnedAt != null) {
+      if (a.getExpectedEnd() == null && returnedAt != null) {
         a.setEndAt(returnedAt);
         a.setUpdatedAt(OffsetDateTime.now());
         return assignmentRepo.save(a);

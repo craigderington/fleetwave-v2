@@ -44,6 +44,35 @@
             <compilerArgs><arg>-proc:none</arg></compilerArgs>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>com.diffplug.spotless</groupId>
+          <artifactId>spotless-maven-plugin</artifactId>
+          <version>2.43.0</version>
+          <inherited>true</inherited>
+          <configuration>
+            <java>
+              <!-- Format all Java sources -->
+              <target>src/main/java/**/*.java,src/test/java/**/*.java</target>
+              <removeUnusedImports/>
+              <importOrder/>
+              <!-- Google Java Format that supports JDK 21 -->
+              <googleJavaFormat>
+                <version>1.22.0</version>
+              </googleJavaFormat>
+            </java>
+
+            <!-- Optional: keep Markdown tidy -->
+            <formats>
+              <format>
+                <includes>
+                  <include>**/*.md</include>
+                </includes>
+                <trimTrailingWhitespace/>
+                <endWithNewline/>
+              </format>
+            </formats>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>

@@ -1,1 +1,21 @@
-package org.fleetwave.domain.repo; import org.fleetwave.domain.Assignment; import org.springframework.data.jpa.repository.*; import org.springframework.data.repository.query.Param; import java.time.OffsetDateTime; import java.util.*; public interface AssignmentRepository extends JpaRepository<Assignment, java.util.UUID>{ java.util.Optional<Assignment> findByRadio_IdAndStatus(java.util.UUID radioId, Assignment.Status status); @Query("select a from Assignment a where a.status=org.fleetwave.domain.Assignment$Status.ACTIVE and a.expectedEnd < :now") java.util.List<Assignment> findOverdue(@Param("now") OffsetDateTime now);}
+package org.fleetwave.domain.repo;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import org.fleetwave.domain.Assignment;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AssignmentRepository extends JpaRepository<Assignment, UUID> {
+
+  Optional<Assignment> findByTenantIdAndRadio_IdAndStatus(
+      String tenantId, UUID radioId, Assignment.Status status);
+
+  Optional<Assignment> findByIdAndTenantId(UUID id, String tenantId);
+
+  List<Assignment> findAllByTenantIdAndRadio_IdAndStatus(
+      String tenantId, UUID radioId, Assignment.Status status);
+
+  List<Assignment> findAllByTenantIdAndAssigneePerson_IdAndStatus(
+      String tenantId, UUID personId, Assignment.Status status);
+}

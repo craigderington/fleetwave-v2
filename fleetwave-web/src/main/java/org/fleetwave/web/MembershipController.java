@@ -55,6 +55,7 @@ public class MembershipController {
             .findByIdAndTenantId(req.personId, tenantId)
             .orElseThrow(() -> new IllegalArgumentException("Person not found"));
 
+    // Requires WorkgroupRepository to have: Optional<Workgroup> findByIdAndTenantId(UUID, String)
     Workgroup g =
         workgroupRepo
             .findByIdAndTenantId(req.workgroupId, tenantId)
@@ -83,8 +84,8 @@ public class MembershipController {
         .map(
             m -> {
               membershipRepo.delete(m);
-              return ResponseEntity.noContent().build();
+              return ResponseEntity.<Void>noContent().build();
             })
-        .orElse(ResponseEntity.notFound().build());
+        .orElseGet(() -> ResponseEntity.<Void>notFound().build());
   }
 }

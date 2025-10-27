@@ -85,8 +85,8 @@ public class PersonController {
         .map(
             p -> {
               personRepo.delete(p);
-              return ResponseEntity.noContent().build();
+              return ResponseEntity.<Void>noContent().build();
             })
-        .orElse(ResponseEntity.notFound().build());
+        .orElseGet(() -> ResponseEntity.<Void>notFound().build());
   }
 }

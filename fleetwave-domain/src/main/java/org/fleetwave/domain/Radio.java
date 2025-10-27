@@ -3,18 +3,48 @@ package org.fleetwave.domain;
 import jakarta.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.UUID;
+import org.fleetwave.domain.base.TenantScoped;
 
 @Entity
-@Table(name="radio")
-public class Radio {
-  public enum Status { ACTIVE, SERVICE, RETIRED }
-  @Id private UUID id;
-  private String serial; private String model; private String callsign;
-  @Enumerated(EnumType.STRING) private Status status = Status.ACTIVE;
-  public UUID getId(){return id;} public void setId(UUID id){this.id=id;}
-  public String getSerial(){return serial;} public void setSerial(String serial){this.serial=serial;}
-  public String getModel(){return model;} public void setModel(String model){this.model=model;}
-  public String getCallsign(){return callsign;} public void setCallsign(String callsign){this.callsign=callsign;}
-  public Status getStatus(){return status;} public void setStatus(Status status){this.status=status;}
+@Table(name = "radios")
+public class Radio extends TenantScoped {
 
+    @Id
+    @Column(name = "id", nullable = false, updatable = false)
+    private UUID id;
+
+    @Column(name = "serial", nullable = false, unique = true, length = 128)
+    private String serial;
+
+    @Column(name = "model", length = 128)
+    private String model;
+
+    @Column(name = "status", length = 32)
+    private String status;
+
+    @Column(name = "created_at", nullable = false)
+    private OffsetDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private OffsetDateTime updatedAt;
+
+    public Radio() {}
+
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
+
+    public String getSerial() { return serial; }
+    public void setSerial(String serial) { this.serial = serial; }
+
+    public String getModel() { return model; }
+    public void setModel(String model) { this.model = model; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public OffsetDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(OffsetDateTime createdAt) { this.createdAt = createdAt; }
+
+    public OffsetDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(OffsetDateTime updatedAt) { this.updatedAt = updatedAt; }
 }

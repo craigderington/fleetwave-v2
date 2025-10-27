@@ -1,50 +1,26 @@
 package org.fleetwave.web.dto;
 
-import jakarta.validation.constraints.NotNull;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-/**
- * Container for assignment-related DTOs.
- */
 public final class AssignmentDtos {
 
-  private AssignmentDtos() { }
+    private AssignmentDtos() {}
 
-  public static final class AssignToPersonRequest {
-    @NotNull
-    private UUID radioId;
+    public static class AssignToPersonRequest {
+        private UUID radioId;
+        private UUID personId;
+        private OffsetDateTime dueAt;
 
-    @NotNull
-    private UUID personId;
+        public AssignToPersonRequest() {}
 
-    // Optional; if null, service will set a default policy (e.g., +8h).
-    private OffsetDateTime expectedEnd;
+        public UUID getRadioId() { return radioId; }
+        public void setRadioId(UUID radioId) { this.radioId = radioId; }
 
-    public AssignToPersonRequest() { }
+        public UUID getPersonId() { return personId; }
+        public void setPersonId(UUID personId) { this.personId = personId; }
 
-    public UUID getRadioId() {
-      return radioId;
+        public OffsetDateTime getDueAt() { return dueAt; }
+        public void setDueAt(OffsetDateTime dueAt) { this.dueAt = dueAt; }
     }
-
-    public void setRadioId(UUID radioId) {
-      this.radioId = radioId;
-    }
-
-    public UUID getPersonId() {
-      return personId;
-    }
-
-    public void setPersonId(UUID personId) {
-      this.personId = personId;
-    }
-
-    public OffsetDateTime getExpectedEnd() {
-      return expectedEnd;
-    }
-
-    public void setExpectedEnd(OffsetDateTime expectedEnd) {
-      this.expectedEnd = expectedEnd;
-    }
-  }
 }

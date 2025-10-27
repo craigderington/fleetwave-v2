@@ -1,7 +1,30 @@
 package org.fleetwave.app.schedulers;
-import org.fleetwave.domain.repo.*; import org.fleetwave.domain.*; import org.fleetwave.app.services.AlertService; import org.springframework.scheduling.annotation.Scheduled; import org.springframework.stereotype.Component; import org.springframework.beans.factory.annotation.Autowired; import java.time.OffsetDateTime;
-@Component public class OverdueScanner {
-  private final AssignmentRepository assignments; private final AlertRuleRepository rules; private final AlertService alerts;
-  @Autowired public OverdueScanner(AssignmentRepository a, AlertRuleRepository r, AlertService s){ assignments=a; rules=r; alerts=s; }
-  @Scheduled(fixedDelay=60000) public void scan(){ var now=OffsetDateTime.now(); var list = rules.findByEnabledTrue(); assignments.findOverdue(now).forEach(a->{ for (AlertRule rule: list){ if(rule.getType()==AlertRule.Type.OVERDUE_ASSIGNMENT){ alerts.raise(rule,"Assignment",a.getId()); } } }); }
+
+import java.time.OffsetDateTime;
+import java.util.List;
+import org.fleetwave.domain.Assignment;
+import org.fleetwave.domain.repo.AssignmentRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+@Component
+public class OverdueScanner {
+
+    private static final Logger log = LoggerFactory.getLogger(OverdueScanner.class);
+    private final AssignmentRepository assignments;
+
+    public OverdueScanner(AssignmentRepository assignments) {
+        this.assignments = assignments;
+    }
+
+    @Scheduled(cron = "0 */15 * * * *") // every 15 minutes
+    public void scan() {
+        OffsetDateTime now = OffsetDateTime.now();
+        List<Assignment> overdue = assignments.findOverdue(now);
+        if (!overdue.isEmpty()) {
+            log.info("Found {} overdue assignments", overdue.size());
+        }
+    }
 }

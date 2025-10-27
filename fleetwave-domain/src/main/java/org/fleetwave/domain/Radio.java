@@ -9,7 +9,7 @@ import org.fleetwave.domain.base.TenantScoped;
 @Table(name = "radios")
 public class Radio extends TenantScoped {
 
-    public enum Status { AVAILABLE, ASSIGNED, RETIRED }
+    public enum Status { AVAILABLE, ASSIGNED, IN_REPAIR, RETIRED }
 
     @Id
     @Column(name = "id", nullable = false, updatable = false)
@@ -42,8 +42,8 @@ public class Radio extends TenantScoped {
     public String getModel() { return model; }
     public void setModel(String model) { this.model = model; }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public Status getStatus() { return status; }
+    public void setStatus(Status status) { this.status = status; }
 
     public OffsetDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(OffsetDateTime createdAt) { this.createdAt = createdAt; }

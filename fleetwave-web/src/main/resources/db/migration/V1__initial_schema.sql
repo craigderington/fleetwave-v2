@@ -49,11 +49,13 @@ CREATE TABLE radios (
     tenant_id   VARCHAR(100) NOT NULL,
     serial_num  VARCHAR(120) NOT NULL,
     model       VARCHAR(120),
+    status      VARCHAR(120) NOT NULL default 'AVAILABLE',
     notes       TEXT,
     created_at  TIMESTAMPTZ  NOT NULL,
     updated_at  TIMESTAMPTZ  NOT NULL,
 
     CONSTRAINT radios_serial_per_tenant UNIQUE (tenant_id, serial_num)
+    CONSTRAINT radios_status_check check (status in ('AVAILABLE', 'ASSIGNED', 'RETIRED'))
 );
 
 -- Assignments

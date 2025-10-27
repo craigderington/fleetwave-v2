@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface WorkgroupRepository extends JpaRepository<Workgroup, UUID> {
     Optional<Workgroup> findByIdAndTenantId(UUID id, String tenantId);
+    Optional<Workgroup> findByTenantIdAndName(String tenantId, String name);
 }

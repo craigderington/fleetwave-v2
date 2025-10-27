@@ -13,6 +13,9 @@ public class Person extends TenantScoped {
     @Column(name = "id", nullable = false, updatable = false)
     private UUID id;
 
+    @Column(name="tenant_id", nullable = false, updatable = false)
+    private String tenantId;
+
     @Column(name = "first_name", length = 100)
     private String firstName;
 
@@ -32,6 +35,9 @@ public class Person extends TenantScoped {
 
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }
+
+    public String getTenantId() { return tenantId; }
+    public void setTenantId(String tenantId) { this.tenantId = tenantId; }
 
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }

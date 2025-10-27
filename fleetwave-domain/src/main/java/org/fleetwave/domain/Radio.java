@@ -9,6 +9,8 @@ import org.fleetwave.domain.base.TenantScoped;
 @Table(name = "radios")
 public class Radio extends TenantScoped {
 
+    public enum Status { AVAILABLE, ASSIGNED, RETIRED }
+
     @Id
     @Column(name = "id", nullable = false, updatable = false)
     private UUID id;
@@ -19,8 +21,9 @@ public class Radio extends TenantScoped {
     @Column(name = "model", length = 128)
     private String model;
 
-    @Column(name = "status", length = 32)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 32)
+    private Status status;
 
     @Column(name = "created_at", nullable = false)
     private OffsetDateTime createdAt;

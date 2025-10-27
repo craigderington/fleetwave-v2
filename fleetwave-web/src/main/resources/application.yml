@@ -6,10 +6,15 @@ spring:
     url: jdbc:postgresql://localhost:5432/fleetwave?options=-c%20TimeZone=America/New_York
     username: fleet
     password: fleet
-    # Don't fail fast if DB isn't ready yet
     hikari:
       initializationFailTimeout: 0
       connectionTimeout: 30000
+      options: "-c TimeZone=America/New_York"
+  
+  flyway:
+    enabled: true
+    baseline-on-migrate: false
+    locations: classpath:db/migration
 
   jpa:
     # Make dialect explicit so Hibernate doesn't need metadata up-front

@@ -13,6 +13,9 @@ public class Workgroup extends TenantScoped {
     @Column(name = "id", nullable = false, updatable = false)
     private UUID id;
 
+    @Column(name="tenant_id", nullable = false, updatable = false)
+    private String tenantId;
+
     @Column(name = "name", nullable = false, length = 150)
     private String name;
 
@@ -26,6 +29,9 @@ public class Workgroup extends TenantScoped {
 
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }
+
+    public String getTenantId() {return tenantId; }
+    public void setTenantId(String tenantId) { this.tenantId = tenantId; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

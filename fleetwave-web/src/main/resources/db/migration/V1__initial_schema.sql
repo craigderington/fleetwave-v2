@@ -55,7 +55,7 @@ CREATE TABLE radios (
     updated_at  TIMESTAMPTZ  NOT NULL,
 
     CONSTRAINT radios_serial_per_tenant UNIQUE (tenant_id, serial_num)
-    CONSTRAINT radios_status_check check (status in ('AVAILABLE', 'ASSIGNED', 'RETIRED'))
+    CONSTRAINT radios_status_check check (status in ('AVAILABLE', 'ASSIGNED', 'IN_REPAIR', 'RETIRED'))
 );
 
 -- Assignments

@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.fleetwave.domain.base.TenantScoped;
 
 @Entity
-@Table(name = "people")
+@Table(name = "persons")
 public class Person extends TenantScoped {
 
     @Id

@@ -13,7 +13,7 @@ export function SubmitRequest(){
     e.preventDefault()
     if (!me) return alert('Sign in required')
     const body = { workgroupId, radioModelPref, reason } // requester inferred on server
-    await api('/api/v1/requests', { method:'POST', body: JSON.stringify(body)})
+    await api('/api/requests', { method:'POST', body: JSON.stringify(body)})
     setOk('Request submitted')
   }
 

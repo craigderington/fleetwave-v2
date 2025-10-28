@@ -4,7 +4,7 @@ import { api } from '../api'
 export function MyAssignments(){
   const [items, setItems] = useState<any[]>([])
   useEffect(() => {
-    api('/api/v1/assignments?status=ACTIVE&my=true').then(setItems).catch(()=>setItems([]))
+    api('/api/assignments?status=ACTIVE&my=true').then(setItems).catch(()=>setItems([]))
   }, [])
   return (
     <div>
@@ -15,7 +15,7 @@ export function MyAssignments(){
           {items.map((a:any) => (
             <tr key={a.id}>
               <td>{a.id}</td><td>{a.radio?.serial || a.radioId}</td><td>{a.expectedEnd || '-'}</td>
-              <td><button onClick={() => api(`/api/v1/assignments/${a.id}/return`, { method:'POST'}).then(()=>location.reload())}>Return</button></td>
+              <td><button onClick={() => api(`/api/assignments/${a.id}/return`, { method:'POST'}).then(()=>location.reload())}>Return</button></td>
             </tr>
           ))}
         </tbody>

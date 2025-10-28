@@ -5,10 +5,10 @@ import { useMe } from '../useMe'
 export function ManagerQueue(){
   const me = useMe()
   const [items, setItems] = useState<any[]>([])
-  const load = () => api('/api/v1/requests?status=PENDING').then(setItems).catch(()=>setItems([]))
+  const load = () => api('/api/requests?status=PENDING').then(setItems).catch(()=>setItems([]))
   useEffect(() => { load() }, [])
-  const act = (id:string, decision:'approve'|'reject') => api(`/api/v1/requests/${id}/${decision}`, { method:'POST', body: JSON.stringify({ }) }).then(load)
-  const fulfill = (id:string) => api(`/api/v1/requests/${id}/fulfill`, { method:'POST' }).then(load)
+  const act = (id:string, decision:'approve'|'reject') => api(`/api/requests/${id}/${decision}`, { method:'POST', body: JSON.stringify({ }) }).then(load)
+  const fulfill = (id:string) => api(`/api/requests/${id}/fulfill`, { method:'POST' }).then(load)
   return (
     <div>
       <h2>Manager Queue</h2>

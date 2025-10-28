@@ -107,7 +107,7 @@ class SeedConfig {
             r.setTenantId(tenantId);
             r.setSerial(serial);
             r.setModel(model);
-            r.setStatus(Radio.Status.ASSIGNED);
+            r.setStatus(status);
             r.setCreatedAt(nowUtc);
             r.setUpdatedAt(nowUtc);
             return radios.save(r);

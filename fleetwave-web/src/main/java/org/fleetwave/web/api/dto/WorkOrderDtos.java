@@ -1,1 +1,15 @@
-package org.fleetwave.web.api.dto; import java.time.OffsetDateTime; import java.util.UUID; public class WorkOrderDtos{ public static class CreateWorkOrder{ public UUID radioId; public String title; public String description; public OffsetDateTime dueAt; public String createdBy; }}
+package org.fleetwave.web.api.dto;
+import java.time.OffsetDateTime;
+import java.util.UUID;
+
+public class WorkOrderDtos{
+
+  public static class CreateWorkOrder{
+
+    public UUID radioId;
+    public String title;
+    public String description;
+    public OffsetDateTime dueAt;
+    public String createdBy;
+  }
+}

@@ -9,6 +9,7 @@ import org.fleetwave.web.api.dto.RequestDtos.CreateRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,6 +28,13 @@ public class RequestController {
     return repo.findAll(pageable);
   }
 
+  @GetMapping("/{id}")
+  public ResponseEntity<Request> getById(@PathVariable UUID id) {
+    Request request =
+        repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Request not found"));
+    return ResponseEntity.ok(request);
+  }
+
   @PostMapping
   public Request create(@Valid @RequestBody CreateRequest b) {
     return svc.create(b.getRequesterId(), b.getWorkgroupId(), b.getModelPref(), b.getReason());
@@ -40,5 +48,18 @@ public class RequestController {
   @PostMapping("/{id}/reject")
   public Request reject(@PathVariable java.util.UUID id) {
     return svc.reject(id);
+  }
+
+  @PostMapping("/{id}/fulfill")
+  public ResponseEntity<Request> fulfill(@PathVariable UUID id) {
+    Request request =
+        repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Request not found"));
+
+    if (request.getStatus() != Request.Status.APPROVED) {
+      throw new IllegalStateException("Can only fulfill approved requests");
+    }
+
+    request.setStatus(Request.Status.FULFILLED);
+    return ResponseEntity.ok(repo.save(request));
   }
 }

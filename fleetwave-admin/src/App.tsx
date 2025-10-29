@@ -1,4 +1,4 @@
-import { Admin, Resource, ListGuesser, EditGuesser, ShowGuesser } from 'react-admin';
+import { Admin, Resource } from 'react-admin';
 import { dataProvider } from './providers/dataProvider';
 import { authProvider } from './providers/authProvider';
 import { Dashboard } from './components/Dashboard';
@@ -11,6 +11,18 @@ import { PersonList, PersonEdit, PersonCreate, PersonShow } from './resources/pe
 
 // Workgroup resources
 import { WorkgroupList, WorkgroupEdit, WorkgroupCreate, WorkgroupShow } from './resources/workgroups';
+
+// Assignment resources
+import { AssignmentList, AssignmentEdit, AssignmentCreate, AssignmentShow } from './resources/assignments';
+
+// Request resources
+import { RequestList, RequestEdit, RequestCreate, RequestShow } from './resources/requests';
+
+// WorkOrder resources
+import { WorkOrderList, WorkOrderEdit, WorkOrderCreate, WorkOrderShow } from './resources/workorders';
+
+// Alert resources
+import { AlertList, AlertEdit, AlertCreate, AlertShow } from './resources/alerts';
 
 // Material-UI Icons
 import RadioIcon from '@mui/icons-material/Radio';
@@ -69,9 +81,10 @@ function App() {
       {/* Assignment Tracking */}
       <Resource
         name="assignments"
-        list={ListGuesser}
-        edit={EditGuesser}
-        show={ShowGuesser}
+        list={AssignmentList}
+        edit={AssignmentEdit}
+        create={AssignmentCreate}
+        show={AssignmentShow}
         icon={AssignmentIcon}
         options={{ label: 'Assignments' }}
       />
@@ -79,9 +92,10 @@ function App() {
       {/* Request Management */}
       <Resource
         name="requests"
-        list={ListGuesser}
-        edit={EditGuesser}
-        show={ShowGuesser}
+        list={RequestList}
+        edit={RequestEdit}
+        create={RequestCreate}
+        show={RequestShow}
         icon={RequestPageIcon}
         options={{ label: 'Requests' }}
       />
@@ -89,9 +103,10 @@ function App() {
       {/* Work Order Management */}
       <Resource
         name="workorders"
-        list={ListGuesser}
-        edit={EditGuesser}
-        show={ShowGuesser}
+        list={WorkOrderList}
+        edit={WorkOrderEdit}
+        create={WorkOrderCreate}
+        show={WorkOrderShow}
         icon={BuildIcon}
         options={{ label: 'Work Orders' }}
       />
@@ -99,9 +114,10 @@ function App() {
       {/* Alert Management */}
       <Resource
         name="alerts"
-        list={ListGuesser}
-        edit={EditGuesser}
-        show={ShowGuesser}
+        list={AlertList}
+        edit={AlertEdit}
+        create={AlertCreate}
+        show={AlertShow}
         icon={NotificationImportantIcon}
         options={{ label: 'Alerts' }}
       />

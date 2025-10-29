@@ -1,0 +1,29 @@
+PATCH NOTES - Assignments: return + queries (2025-10-26)
+
+Added:
+- domain repo: AssignmentRepository (extended with list queries)
+  * findAllByTenantIdAndRadio_IdAndStatus(...)
+  * findAllByTenantIdAndAssigneePerson_IdAndStatus(...)
+  * findByIdAndTenantId(...)
+  * findByTenantIdAndRadio_IdAndStatus(...)
+
+- app service: AssignmentService
+  * assignToPerson(tenantId, radioId, personId, expectedEnd)
+  * returnAssignment(tenantId, assignmentId, returnedAt)
+
+- web controller: AssignmentController
+  * GET  /api/assignments/active-by-radio/{radioId}
+  * GET  /api/assignments/active-by-person/{personId}
+  * POST /api/assignments/{assignmentId}/return    (optional ?returnedAt=timestamp)
+  * POST /api/assignments/return                    (JSON body with assignmentId, returnedAt)
+
+- web dto: AssignmentDtos.ReturnRequest
+
+Assumptions:
+- Assignment entity has fields: id, tenantId, radio, assigneePerson, assigneeWorkgroup,
+  startAt, expectedEnd, endAt, createdAt, updatedAt, status (ACTIVE/RETURNED).
+- PersonRepository and RadioRepository expose findByIdAndTenantId(...).
+- Controllers expect header X-Tenant for tenancy (e.g., 'ocps').
+
+Rebuild:
+  mvn -DskipTests clean install -U

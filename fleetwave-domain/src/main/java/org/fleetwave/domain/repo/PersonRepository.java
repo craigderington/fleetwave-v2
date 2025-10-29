@@ -15,6 +15,8 @@ public interface PersonRepository extends JpaRepository<Person, UUID> {
 
   Optional<Person> findByIdAndTenantId(UUID id, String tenantId);
 
+  Optional<Person> findByTenantIdAndUsername(String tenantId, String username);
+
   List<Person> findAllByTenantId(String tenantId);
 
   Page<Person> findAllByTenantId(String tenantId, Pageable pageable);

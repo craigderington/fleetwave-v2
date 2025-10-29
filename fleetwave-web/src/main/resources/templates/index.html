@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+  <title layout:fragment="head">Welcome</title>
+</head>
+<body>
+  <div layout:fragment="content">
+    <div class="px-4 py-5 text-center">
+      <i class="bi bi-broadcast-pin text-primary" style="font-size: 5rem;"></i>
+      <h1 class="display-5 fw-bold mt-3">Welcome to FleetWave</h1>
+      <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">
+          Multi-tenant radio fleet management system for organizations like municipalities, schools, and enterprises.
+          Track inventory, manage assignments, handle maintenance, and monitor your entire radio fleet.
+        </p>
+
+        <!-- Action buttons based on authentication -->
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+          <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn btn-primary btn-lg px-4 gap-3">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+          </a>
+
+          <a sec:authorize="isAuthenticated()" th:href="@{/portal/}" class="btn btn-primary btn-lg px-4 gap-3">
+            <i class="bi bi-person-circle me-2"></i>My Portal
+          </a>
+
+          <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/}" class="btn btn-success btn-lg px-4">
+            <i class="bi bi-gear-fill me-2"></i>Admin Dashboard
+          </a>
+
+          <a th:href="@{/swagger-ui.html}" class="btn btn-outline-secondary btn-lg px-4" target="_blank">
+            <i class="bi bi-file-code me-2"></i>API Docs
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features section -->
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+      <div class="col d-flex align-items-start">
+        <div class="icon-square text-bg-primary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3" style="width: 3rem; height: 3rem; border-radius: 0.5rem;">
+          <i class="bi bi-broadcast"></i>
+        </div>
+        <div>
+          <h3 class="fs-4 fw-bold">Radio Inventory</h3>
+          <p>Track all radio units with serial numbers, models, status, and maintenance history. Manage availability and assignments in real-time.</p>
+        </div>
+      </div>
+
+      <div class="col d-flex align-items-start">
+        <div class="icon-square text-bg-primary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3" style="width: 3rem; height: 3rem; border-radius: 0.5rem;">
+          <i class="bi bi-people-fill"></i>
+        </div>
+        <div>
+          <h3 class="fs-4 fw-bold">Personnel & Workgroups</h3>
+          <p>Organize personnel into workgroups (Dispatch, Field Ops, Maintenance). Manage memberships and role-based access control.</p>
+        </div>
+      </div>
+
+      <div class="col d-flex align-items-start">
+        <div class="icon-square text-bg-primary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3" style="width: 3rem; height: 3rem; border-radius: 0.5rem;">
+          <i class="bi bi-arrow-left-right"></i>
+        </div>
+        <div>
+          <h3 class="fs-4 fw-bold">Assignment Tracking</h3>
+          <p>Assign radios to individuals or workgroups. Track expected return dates, overdue assignments, and assignment history.</p>
+        </div>
+      </div>
+
+      <div class="col d-flex align-items-start">
+        <div class="icon-square text-bg-success d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3" style="width: 3rem; height: 3rem; border-radius: 0.5rem;">
+          <i class="bi bi-clipboard-check"></i>
+        </div>
+        <div>
+          <h3 class="fs-4 fw-bold">Request Workflow</h3>
+          <p>Employees can submit radio requests with model preferences. Managers approve or reject, then fulfill approved requests.</p>
+        </div>
+      </div>
+
+      <div class="col d-flex align-items-start">
+        <div class="icon-square text-bg-warning d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3" style="width: 3rem; height: 3rem; border-radius: 0.5rem;">
+          <i class="bi bi-tools"></i>
+        </div>
+        <div>
+          <h3 class="fs-4 fw-bold">Work Orders</h3>
+          <p>Create and track maintenance work orders for radios. Monitor repair status from OPEN → IN_PROGRESS → DONE.</p>
+        </div>
+      </div>
+
+      <div class="col d-flex align-items-start">
+        <div class="icon-square text-bg-danger d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3" style="width: 3rem; height: 3rem; border-radius: 0.5rem;">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+        </div>
+        <div>
+          <h3 class="fs-4 fw-bold">Alerts & Notifications</h3>
+          <p>Automated alerts for overdue returns, maintenance due dates. Email and SMS notifications via SES/Twilio integration.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats section (if authenticated) -->
+    <div sec:authorize="isAuthenticated()" class="row g-4 py-5 row-cols-1 row-cols-md-4 border-top">
+      <div class="col text-center">
+        <div class="display-6 text-primary"><i class="bi bi-broadcast"></i></div>
+        <h4 class="mt-2">Total Radios</h4>
+        <p class="text-muted">View inventory</p>
+      </div>
+      <div class="col text-center">
+        <div class="display-6 text-success"><i class="bi bi-check-circle"></i></div>
+        <h4 class="mt-2">Available</h4>
+        <p class="text-muted">Ready to assign</p>
+      </div>
+      <div class="col text-center">
+        <div class="display-6 text-warning"><i class="bi bi-arrow-left-right"></i></div>
+        <h4 class="mt-2">Assigned</h4>
+        <p class="text-muted">Currently in use</p>
+      </div>
+      <div class="col text-center">
+        <div class="display-6 text-danger"><i class="bi bi-exclamation-triangle"></i></div>
+        <h4 class="mt-2">Alerts</h4>
+        <p class="text-muted">Needs attention</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

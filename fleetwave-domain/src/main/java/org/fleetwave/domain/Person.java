@@ -25,6 +25,18 @@ public class Person extends TenantScoped {
     @Column(name = "email", length = 255)
     private String email;
 
+    @Column(name = "username", length = 100, nullable = false)
+    private String username;
+
+    @Column(name = "password_hash", length = 255)
+    private String passwordHash;
+
+    @Column(name = "roles", length = 255)
+    private String roles;
+
+    @Column(name = "enabled", nullable = false)
+    private Boolean enabled = true;
+
     @Column(name = "created_at", nullable = false)
     private OffsetDateTime createdAt;
 
@@ -53,4 +65,16 @@ public class Person extends TenantScoped {
 
     public OffsetDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(OffsetDateTime updatedAt) { this.updatedAt = updatedAt; }
+
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+
+    public String getPasswordHash() { return passwordHash; }
+    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+
+    public String getRoles() { return roles; }
+    public void setRoles(String roles) { this.roles = roles; }
+
+    public Boolean getEnabled() { return enabled; }
+    public void setEnabled(Boolean enabled) { this.enabled = enabled; }
 }

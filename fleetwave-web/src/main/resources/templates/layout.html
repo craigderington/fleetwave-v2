@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${pageTitle != null ? pageTitle + ' - FleetWave' : 'FleetWave - Radio Fleet Management'}">FleetWave</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css}">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" th:href="@{/css/custom.css}">
+
+  <!-- Additional head content -->
+  <th:block layout:fragment="head"></th:block>
+</head>
+<body>
+  <!-- Header Navigation -->
+  <th:block th:replace="~{fragments/header :: header}"></th:block>
+
+  <!-- Main Content -->
+  <main class="container my-4">
+    <!-- Flash messages -->
+    <div th:if="${param.logout}" class="alert alert-success alert-dismissible fade show" role="alert">
+      <i class="bi bi-check-circle-fill me-2"></i>You have been logged out successfully.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>Invalid username or password.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div th:if="${message}" class="alert alert-info alert-dismissible fade show" role="alert">
+      <i class="bi bi-info-circle-fill me-2"></i><span th:text="${message}"></span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <!-- Page content -->
+    <th:block layout:fragment="content"></th:block>
+  </main>
+
+  <!-- Footer -->
+  <th:block th:replace="~{fragments/footer :: footer}"></th:block>
+
+  <!-- Bootstrap JS Bundle -->
+  <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <!-- Custom JS -->
+  <script th:src="@{/js/custom.js}"></script>
+
+  <!-- Additional scripts -->
+  <th:block layout:fragment="scripts"></th:block>
+</body>
+</html>

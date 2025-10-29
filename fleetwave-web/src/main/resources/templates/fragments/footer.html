@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Footer Fragment</title></head>
+<body>
+  <footer th:fragment="footer" class="footer mt-auto py-3 bg-light border-top">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <p class="text-muted mb-0">
+            <i class="bi bi-broadcast-pin me-1"></i>
+            <strong>FleetWave</strong> - Radio Fleet Management System
+          </p>
+          <p class="text-muted small mb-0">
+            Version 0.4.0-SNAPSHOT
+          </p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item">
+              <a th:href="@{/}" class="text-muted text-decoration-none">Home</a>
+            </li>
+            <li class="list-inline-item">
+              <a th:href="@{/status}" class="text-muted text-decoration-none">Status</a>
+            </li>
+            <li class="list-inline-item">
+              <a th:href="@{/swagger-ui.html}" class="text-muted text-decoration-none" target="_blank">
+                <i class="bi bi-file-code me-1"></i>API Docs
+              </a>
+            </li>
+          </ul>
+          <p class="text-muted small mb-0 mt-2">
+            &copy; <span th:text="${#dates.year(#dates.createNow())}">2025</span> FleetWave. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

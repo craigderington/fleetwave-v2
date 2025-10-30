@@ -75,16 +75,9 @@ public class SecurityConfig {
                 request.getSession().setAttribute("username", userDetails.getUsername());
             }
 
-            // Redirect based on role
-            if (authentication.getAuthorities().stream()
-                    .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-                response.sendRedirect("/admin/");
-            } else if (authentication.getAuthorities().stream()
-                    .anyMatch(a -> a.getAuthority().equals("ROLE_MANAGER"))) {
-                response.sendRedirect("/portal/queue");
-            } else {
-                response.sendRedirect("/portal/");
-            }
+            // Always redirect to root path (relative)
+            // This keeps the session intact whether accessed via proxy or directly
+            response.sendRedirect("/");
         };
     }
 

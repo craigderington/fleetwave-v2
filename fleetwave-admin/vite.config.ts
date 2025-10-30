@@ -18,8 +18,40 @@ export default defineConfig({
         target: 'http://localhost:8080',
         changeOrigin: true,
         secure: false,
+        cookieDomainRewrite: 'localhost',
       },
       '/actuator': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        secure: false,
+        cookieDomainRewrite: 'localhost',
+      },
+      // Proxy authentication endpoints
+      '/login': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        secure: false,
+        cookieDomainRewrite: 'localhost',
+        followRedirects: false,
+      },
+      '/logout': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        secure: false,
+        cookieDomainRewrite: 'localhost',
+      },
+      // Proxy static resources (webjars, CSS, JS)
+      '/webjars': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/css': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/js': {
         target: 'http://localhost:8080',
         changeOrigin: true,
         secure: false,

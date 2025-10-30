@@ -23,11 +23,11 @@ CREATE UNIQUE INDEX ux_persons_tenant_username
     WHERE username IS NOT NULL;
 
 -- Update existing records with demo credentials
--- Password is 'password' hashed with BCrypt (strength 10)
--- $2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy
+-- Password is 'admin123' hashed with BCrypt (strength 10)
+-- $2a$10$/cy8Y77kM3gteHvU9qGcJehFVVoUSGLEIX.cIMFHs08dm49vhRR1u
 UPDATE persons
 SET username = LOWER(REPLACE(first_name || '.' || last_name, ' ', '')),
-    password_hash = '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy',
+    password_hash = '$2a$10$/cy8Y77kM3gteHvU9qGcJehFVVoUSGLEIX.cIMFHs08dm49vhRR1u',
     roles = 'ROLE_USER',
     enabled = true
 WHERE username IS NULL;
@@ -41,7 +41,7 @@ VALUES (
     'User',
     'admin@ocps.gov',
     'admin',
-    '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy',
+    '$2a$10$/cy8Y77kM3gteHvU9qGcJehFVVoUSGLEIX.cIMFHs08dm49vhRR1u',
     'ROLE_USER,ROLE_MANAGER,ROLE_ADMIN',
     true,
     NOW(),
